@@ -1,0 +1,1 @@
+[{"model": "StudentRegister.student", "pk": 481, "fields": {"Admission_Number": "Adm001", "First_Name": "sdfsdfsdfsdf", "Last_Name": "Amin", "Date_Of_Birth": "1990-01-01", "Date_Joined": "2022-01-01", "Faculty": "Факультет1", "Department": "Отделение1", "Course_Name": "Курс1", "Year_Of_Study": "1", "Unit_Name": "Учебная единица1", "Grade": "A", "send": 1}}]

@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <title>Простая таблица</title>
+</head>
+
+<body>
+    <div class="container-fluid py-5">
+        <!-- For demo purpose -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4"> </h1>
+                <p class="lead mb-0">Простая таблица учеников с данными </p>
+            </div>
+        </div>
+        <!-- End -->
+        <div class="container">
+            <center>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert {{message.tags}} m-1" role="alert">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-label="Close">&times;</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </center>
+        </div>
+        <br>
+        <div class="row table">
+            <div class="col-lg-12 mx-auto">
+                <div class="bg-white rounded-lg shadow-lg">
+                    <!-- tables-->
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Добавить информацию о студенте
+                </button>
+
+                <!-- Add Student Info Modal -->
+                    <table class="table table-borderless" id="studentInfoTable">
+                        <thead>
+                            <tr>
+                                <th scope="col"> Поступление Н.</th>
+                                <th scope="col">Имя</th>
+                                <th scope="col">Фамилия</th>
+                                <th scope="col"> Дата присоединения</th>
+                                <th scope="col">Название курса</th>
+                                <th scope="col">Год обучения</th>
+                                <th scope="col">Название модуля</th>
+                                <th scope="col">Оценка</th>
+                                <th scope="col">Send</th>
+                                <th scope="col">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <th>{{student.Admission_Number}}</th>
+                                <td>{{student.First_Name}}</td>
+                                <td>{{student.Last_Name}}</td>
+                                <td>{{student.Date_Joined}}</td>
+                                <td>{{student.Course_Name}}</td>
+                                <td>{{student.Year_Of_Study}}</td>
+                                <td>{{student.Unit_Name}}</td>
+                                <td>{{student.Grade}}</td>
+                                <td>{{student.send}} </td>
+                                
+                                <td>
+                                    <a href="{% url 'View_Info' student.id %}" class="text-priamry">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{% url 'Edit_Info' student.id %}" class="text-success">
+                                        <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{% url 'Delete_Info' student.id %}" class="text-danger">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- End -->
+                </div>
+                
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add New Student Info</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group mb-3">
+                                        <input type="text" name="Admission_Number" placeholder="Admission Number"
+                                            required class="form-control">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <input type="text" name="First_Name" placeholder="First Name" required
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <input type="text" name="Last_Name" placeholder="Last Name" required
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <label>Дата рождения</label>
+                                                <input type="date" name="Date_Of_Birth" placeholder="Дата рождения"
+                                                    required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group">
+                                                <label>Дата присоединения</label>
+                                                <input type="date" name="Date_Joined"
+                                                    placeholder="Дата присоединения" required class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            name="Faculty" aria-placeholder="Факультет">
+                                            <option disabled selected>Факультет</option>
+                                            <option value="Факультет Инженерии">Факультет Инженерии</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            name="Department" aria-placeholder="Отделение">
+                                            <option disabled selected>Отделение</option>
+                                            <option value="Отделение Электротехники и Электроники">Отделение
+                                                Электротехники и Электроники</option>
+                                            <option value="Отделение Электротехники и Компьютерной Инженерии">Отделение
+                                                Электротехники и Компьютерной Инженерии</option>
+                                            <option value="Отделение Механической Инженерии">Отделение Механической
+                                                Инженерии</option>
+                                            <option value="Отделение Телекоммуникационной Инженерии">Отделение
+                                                Телекоммуникационной Инженерии</option>
+                                            <option value="Отделение Гражданской и Строительной Инженерии">Отделение
+                                                Гражданской и Строительной Инженерии</option>
+                                            <option value="Отделение Мехатроники">Отделение Мехатроники</option>
+                                            <option value="Отделение Морской Инженерии">Отделение Морской Инженерии
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group"> <select class="form-select form-control"
+                                                    aria-label="Default select example" name="Course_Name"
+                                                    aria-placeholder="Faculty">
+                                                    <option disabled selected>Название курса</option>
+                                                    <option value="Bsc. Электротехника и электроника">Bsc.
+                                                        Электротехника и электроника</option>
+                                                    <option value="Bsc. Электротехника и компьютерная инженерия">Bsc.
+                                                        Электротехника и компьютерная инженерия</option>
+                                                    <option value="Bsc. Механическая инженерия">Bsc. Механическая
+                                                        инженерия</option>
+                                                    <option value="Bsc. Телекоммуникационная инженерия">Bsc.
+                                                        Телекоммуникационная инженерия</option>
+                                                    <option value="Bsc. Гражданское и строительное инженерство">Bsc.
+                                                        Гражданское и строительное инженерство</option>
+                                                    <option value="Bsc. Мехатроника">Bsc. Мехатроника</option>
+                                                    <option value="Bsc. Морское инженерное дело">Bsc. Морское инженерное
+                                                        дело</option>
+                                                </select> </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group"> <select class="form-select form-control"
+                                                    aria-label="Default select example" name="Year_Of_Study"
+                                                    aria-placeholder="Faculty">
+                                                    <option disabled selected>Год обучения</option>
+                                                    <option value="1-й год">1-й год</option>
+                                                    <option value="2-й год">2-й год</option>
+                                                    <option value="3-й год">3-й год</option>
+                                                    <option value="4-й год">4-й год</option>
+                                                    <option value="5-й год">5-й год</option>
+                                                </select> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group"> <select class="form-select form-control"
+                                                    aria-label="Default select example" name="Unit_Name"
+                                                    aria-placeholder="Faculty">
+                                                    <option disabled selected>Название предмета</option>
+                                                    <option value="Исчисление">Исчисление</option>
+                                                    <option value="Комплексный анализ">Комплексный анализ</option>
+                                                    <option value="Инженерия управления">Инженерия управления</option>
+                                                    <option value="Экономика">Экономика</option>
+                                                    <option value="Бухгалтерский учет и финансы">Бухгалтерский учет и
+                                                        финансы</option>
+                                                    <option value="Алгебра">Алгебра</option>
+                                                </select> </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-group"> <select class="form-select form-control"
+                                                    aria-label="Default select example" name="Grade"
+                                                    aria-placeholder="Faculty">
+                                                    <option disabled selected>Оценка</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                    <option value="E">E</option>
+                                                    <option value="F">F</option>
+                                                </select> </div>
+                                        </div>
+                                    </div> <br>
+                                    <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Отмена</button> <button type="submit"
+                                            class="btn btn-primary">Сохранить информацию о студенте</button> </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- <script>
+    var time = new Date().getTime();
+    $(document.body).bind("mousemove keypress", function (e) {
+        time = new Date().getTime();
+    });
+
+    function refresh() {
+        if (new Date().getTime() - time >= 1000)
+            window.location.reload(true);
+        else
+            setTimeout(refresh, 1000);
+    }
+
+    setTimeout(refresh, 10000);
+</script> -->
+
+</html>
