@@ -21,12 +21,16 @@
 
 ![pgAdmin](https://github.com/user-attachments/assets/45a1fc64-9626-4637-9385-eee1a6c97870)
 Рис1. Инструмент pgAdmin.
+
 2. Настройте базу данных PostgreSQL:
 •	Запустите pgAdmin и подключитесь к экземпляру PostgreSQL, используя учетные данные, заданные во время установки.
 •	Создайте новую базу данных StudentDB и таблицу StudentRegistration_student.
+
 ![Erd](https://github.com/user-attachments/assets/ce579b51-d7a1-493f-8016-e6e17f019a43)
 ![Erd2](https://github.com/user-attachments/assets/e1ed235a-67fd-4520-bcb4-d1581772c9af)
+
 Рис2 . ERD для таблиц
+
 3. Настройка среды Python:
 •	Откройте командную строку или PowerShell от имени администратора.
 •	Создайте каталог для проекта и перейдите в него:
@@ -42,14 +46,18 @@ myenv\Scripts\activate
 pip install django psycopg2
 
 ![install Django](https://github.com/user-attachments/assets/9d7392ab-2652-40c5-bcf2-369c60f62976)
+
 Рисунок 3 – Установка Django и psycopg2.
 
 5. Создайте новый проект Django и настройте PostgreSQL :
 •	Создайте новый проект Django , выполнив:
 django-admin startproject student_registration .
 •	Откройте файл настроек Django ( myproject /settings.py), найдите параметр DATABASES и измените его на использование PostgreSQL.
+
 ![install databases in Jdango](https://github.com/user-attachments/assets/696ec70e-0d27-46a7-a09d-4a86765115ee)
+
 Рис 4. Настройка БАЗ ДАННЫХ в Django.
+
 •	Выполните первоначальную миграцию с помощью сценария Manage.py Django , чтобы подготовить базу данных PostgreSQL :
 python manage.py migrate
 •	Запустите сервер разработки Django с помощью следующей команды:
@@ -60,11 +68,15 @@ python manage.py runserver
 Две функции showFiltered () и show() являются частью Django . Эти функции служат конечными точками для API, предоставляя внешним клиентам механизмы для получения данных «Студент» в структурированном формате JSON с возможностью пометить данные как обработанные, если это необходимо. Функции извлекают записи Student, сериализуют их в JSON, сохраняют эти данные в файл JSON в каталоге Django .
 1.	showFiltered : эта функция предназначена для ситуаций, когда вы хотите обработать и ответить только на подмножество записей учащихся, которые еще не были «отправлены». При вызове он получает эти записи, помечает их как «отправленные», сохраняет изменения в базе данных, записывает сериализованные данные в файл с отметкой времени для ведения учета и возвращает данные в виде ответа JSON.
 2.	show: это функция более общего назначения, которая извлекает все записи Student в системе, сериализует их в JSON, сохраняет эти данные в файл с именем « output.json » (перезаписывая его, если он существует) и возвращает данные в виде JSON-ответ.
+
  ![showFiltered](https://github.com/user-attachments/assets/42ff6c78-cc04-4131-ae97-be97b6ecea27)
+
 Рисунок 5 – функции showFiltered () и show()
 
  ![Api](https://github.com/user-attachments/assets/5bd418b0-3218-465d-8542-b3c759d0bf50)
+
 Рис. 6. Проектирование и разработка API
+
 # 1C:Enterprise интеграция
 Установление связи между API Django и платформой 1C:Предприятие с использованием встроенных HTTP-функций для отправки и получения данных.
 Это включает в себя несколько процедур, предназначенных для взаимодействия с сервером и обработки JSON-ответов, связанных с данными студентов.
@@ -76,12 +88,14 @@ python manage.py runserver
 6.	Процедура ВыбратьФайл - это клиентская процедура, позволяющая пользователям выбирать файл через диалоговое окно, что, вероятно, приводит к выбору JSON-файла для обработки сервером.
 7.	Процедура ПослеВыбораФайла обрабатывает выбранный пользователем файл, извлекает его имя и вызывает Команда1НаСервере3 с именем файла для его обработки.
 
- 
+![1](https://github.com/user-attachments/assets/4a536278-9726-49bb-af86-c7a278bc220e)
 Рис 7 Каталог IC:Interprice StudentRegistration_student
  
+![2](https://github.com/user-attachments/assets/263a032c-996d-42a7-b29f-e6f547aca936)
 Рис 8. Конфигурация добавления студента из HTTP-запроса и файла JSON.
 
  
+![3](https://github.com/user-attachments/assets/5633ce3b-7473-4ee5-b9ca-ca023eee62cf)
 Рисунок 8 Форма Списка StudentRegistration_student
 
 
